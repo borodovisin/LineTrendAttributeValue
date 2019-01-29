@@ -1,5 +1,6 @@
 import visualization from '../visualization.json';
 
+// Variables Accessors
 const multiGroupAccessor = controller.dataAccessors[visualization.variables[0].name];
 const YAxisAccessor = controller.dataAccessors[visualization.variables[1].name]
 
@@ -105,13 +106,12 @@ export const getSeries = (data, xAxisArray) => {
 export const getMetricTooltip = params => {
     if (params && _.get(params, 'name') && _.get(params, 'color') && _.get(params, 'data.value')) {
         const firstAccessorMultiGroup = _.first(multiGroupAccessor._accessors);
-        const label = firstAccessorMultiGroup.getLabel();
         // Access value directly from datum, because params.name can be empty when mouse move
         const value = firstAccessorMultiGroup.formatted(params.data.datum);
         const color = `<div class="color_icon active" style="background-color: ${params.color};"></div>`;
         const trendAttributeTooltip = getTrendAttributeTooltip(params);
         const metricTooltip = getMetric(params);
-        return `<div class="zd_tooltip_info_group customized"><div class="zd_tooltip_info_table"><div class="zd_tooltip_info_table_row">${getTableRow(label, value, color)}</div>${trendAttributeTooltip}${metricTooltip}</div></div>`;
+        return `<div class="zd_tooltip_info_group customized"><div class="zd_tooltip_info_table"><div class="zd_tooltip_info_table_row">${getTableRow(firstAccessorMultiGroup.getLabel(), value, color)}</div>${trendAttributeTooltip}${metricTooltip}</div></div>`;
     }
     return '';
 };

@@ -22,6 +22,19 @@ const chartContainer = document.createElement('div');
 chartContainer.classList.add('chart-container');
 controller.element.appendChild(chartContainer);
 
+// Dynamic the splitNumber to avoid overlap
+echarts.registerProcessor(ecModel => {
+    ecModel.findComponents({ mainType: 'yAxis' }).map(component => {
+        const defaultSplitNumber = 5;
+        const ratio = Math.floor(component.axis.grid.getRect().height / (defaultSplitNumber * component.getTextRect('0').height));
+        if (ratio < 1) component.option.axisLabel.show = false;
+        else {
+            component.option.splitNumber = ratio;
+            component.option.axisLabel.show = true;
+        }
+    });
+});
+
 const lineChart = echarts.init(chartContainer);
 
 const option = {
