@@ -3,7 +3,8 @@ import {
     getXAxisData, 
     getSeries,
     SIFormat,
-    getMetricTooltip
+    getMetricTooltip,
+    getFont,
  } from './utils';
 
 import './index.css';
@@ -40,10 +41,6 @@ echarts.registerProcessor(ecModel => {
 const lineChart = echarts.init(chartContainer);
 
 const option = {
-    textStyle: {
-        fontFamily: 'Source Pro, source-sans-pro, Helvetica, Arial, sans-serif',
-        fontSize: '14',
-    },
     grid: {
         left: 40,
         top: 30,
@@ -71,6 +68,7 @@ const option = {
                 width: 2,
             }
         },
+        axisLabel: getFont(),
     },
     yAxis: {
         type: 'value',
@@ -81,6 +79,7 @@ const option = {
         },
         axisLabel: {
             formatter: value => SIFormat(value, 2),
+            ...getFont(),
         },
     },
     series: [],
